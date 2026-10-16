@@ -1,4 +1,4 @@
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/c660d2b9-4cb7-4f70-8ccc-359b1b3970f5" /># Tadaima
+# Tadaima
 
 > Hanggang makauwi nang ligtas. (Until you get home safe.)
 
