@@ -1,4 +1,4 @@
-# Tadaima
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/c660d2b9-4cb7-4f70-8ccc-359b1b3970f5" /># Tadaima
 
 > Hanggang makauwi nang ligtas. (Until you get home safe.)
 
@@ -35,7 +35,7 @@ Tadaima helps students prepare before a ride and reach help in one tap:
 - Figma (design)
 
 ## Links
-- Figma: [paste link later]
+- Figma: [https://www.figma.com/design/5Z191YPXKZF9m8c6cn82iz/Tadaima-F-7?node-id=0-1&t=combp5otAU6fhGCn-1]
 - AI Disclosure Log: [AI_DISCLOSURE_LOG.md](./AI_DISCLOSURE_LOG.md)
 
 ## Status
