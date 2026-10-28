@@ -14,9 +14,11 @@ class ProfileProvider extends ChangeNotifier {
   /// Key used in SharedPreferences. Keep it stable so we do not "lose" the
   /// saved name in a future version of the app.
   static const String _storageKey = 'student_name';
+  static const String _onboardingKey = 'onboarding_done';
 
   Profile _profile = const Profile();
   bool _isLoaded = false;
+  bool _onboardingDone = false;
 
   /// The saved name, or an empty string if none has been set.
   String get name => _profile.name;
@@ -27,15 +29,20 @@ class ProfileProvider extends ChangeNotifier {
   /// True when a usable (non-blank) name has been saved.
   bool get hasName => _profile.hasName;
 
-  /// Reads the saved name from the phone. Never throws.
+  /// Whether the first-run onboarding flow has been completed.
+  bool get onboardingDone => _onboardingDone;
+
+  /// Reads the saved name and onboarding state from the phone. Never throws.
   Future<void> load() async {
     try {
       final prefs = await SharedPreferences.getInstance();
       _profile = Profile(name: prefs.getString(_storageKey)?.trim() ?? '');
+      _onboardingDone = prefs.getBool(_onboardingKey) ?? false;
     } catch (_) {
-      // Storage is unavailable for some reason. Fall back to "no name" instead
+      // Storage is unavailable for some reason. Fall back to defaults instead
       // of crashing.
       _profile = const Profile();
+      _onboardingDone = false;
     } finally {
       _isLoaded = true;
       notifyListeners();
@@ -59,6 +66,19 @@ class ProfileProvider extends ChangeNotifier {
     try {
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString(_storageKey, trimmed);
+    } catch (_) {
+      // If saving fails we keep the change in memory so the UI still works.
+    }
+  }
+
+  /// Marks onboarding as completed and persists the flag.
+  Future<void> markOnboardingDone() async {
+    _onboardingDone = true;
+    notifyListeners();
+
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setBool(_onboardingKey, true);
     } catch (_) {
       // If saving fails we keep the change in memory so the UI still works.
     }

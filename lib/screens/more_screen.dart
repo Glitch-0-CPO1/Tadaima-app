@@ -8,6 +8,7 @@ import '../services/sms_service.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_text_styles.dart';
 import '../theme/app_theme.dart';
+import 'onboarding_screen.dart';
 import 'safe_places_screen.dart';
 import 'safety_tips_screen.dart';
 
@@ -111,6 +112,12 @@ class _MoreScreenState extends State<MoreScreen> {
     );
   }
 
+  void _showIntroAgain() {
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(builder: (_) => const OnboardingScreen()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final profile = context.watch<ProfileProvider>();
@@ -173,6 +180,12 @@ class _MoreScreenState extends State<MoreScreen> {
                 icon: Icons.tips_and_updates_outlined,
                 title: 'Safety tips',
                 onTap: _openSafetyTips,
+              ),
+              const Divider(height: 1),
+              _LinkTile(
+                icon: Icons.replay,
+                title: 'Show intro again',
+                onTap: _showIntroAgain,
               ),
             ],
           ),

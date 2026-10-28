@@ -7,7 +7,9 @@ import 'providers/rides_provider.dart';
 import 'screens/contacts_screen.dart';
 import 'screens/home_screen.dart';
 import 'screens/more_screen.dart';
+import 'screens/onboarding_screen.dart';
 import 'screens/rides_screen.dart';
+import 'theme/app_colors.dart';
 import 'theme/app_theme.dart';
 
 void main() {
@@ -40,9 +42,33 @@ class TadaimaApp extends StatelessWidget {
         title: 'Tadaima',
         debugShowCheckedModeBanner: false,
         theme: AppTheme.light,
-        home: const AppShell(),
+        home: const _StartupRouter(),
       ),
     );
+  }
+}
+
+/// Routes to onboarding or the main app based on saved state.
+class _StartupRouter extends StatelessWidget {
+  const _StartupRouter();
+
+  @override
+  Widget build(BuildContext context) {
+    final profile = context.watch<ProfileProvider>();
+
+    if (!profile.isLoaded) {
+      // Plain background-colored screen while loading, no timed splash.
+      return const Scaffold(
+        backgroundColor: AppColors.bg,
+        body: SizedBox.shrink(),
+      );
+    }
+
+    if (!profile.onboardingDone) {
+      return const OnboardingScreen();
+    }
+
+    return const AppShell();
   }
 }
 

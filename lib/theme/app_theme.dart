@@ -72,11 +72,11 @@ class AppTheme {
 
       cardTheme: CardThemeData(
         color: AppColors.surface,
-        elevation: 0,
+        elevation: 1,
         margin: EdgeInsets.zero,
+        shadowColor: Colors.black.withValues(alpha: 0.05),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(radiusCard),
-          side: const BorderSide(color: AppColors.divider),
         ),
       ),
 
@@ -86,7 +86,7 @@ class AppTheme {
           foregroundColor: AppColors.onPrimary,
           disabledBackgroundColor: AppColors.disabledBg,
           disabledForegroundColor: AppColors.disabledText,
-          minimumSize: const Size.fromHeight(buttonHeight),
+          minimumSize: const Size(48, 48),
           textStyle: AppTextStyles.button,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(radiusButton),
@@ -99,7 +99,19 @@ class AppTheme {
           foregroundColor: AppColors.primary,
           disabledForegroundColor: AppColors.disabledText,
           side: const BorderSide(color: AppColors.primary),
-          minimumSize: const Size.fromHeight(buttonHeight),
+          minimumSize: const Size(48, 48),
+          textStyle: AppTextStyles.button,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(radiusButton),
+          ),
+        ),
+      ),
+
+      textButtonTheme: TextButtonThemeData(
+        style: TextButton.styleFrom(
+          foregroundColor: AppColors.primary,
+          disabledForegroundColor: AppColors.disabledText,
+          minimumSize: const Size(48, 48),
           textStyle: AppTextStyles.button,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(radiusButton),
@@ -169,9 +181,7 @@ class AppTheme {
           final selected = states.contains(WidgetState.selected);
           return IconThemeData(
             size: 24,
-            color: selected
-                ? AppColors.primaryDark
-                : AppColors.textSecondary,
+            color: selected ? AppColors.primary : AppColors.textSecondary,
           );
         }),
       ),

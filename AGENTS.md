@@ -95,6 +95,17 @@ Use `Uri.encodeComponent` for the body. Send to all trusted contacts the app has
 ## Android manifest (already configured)
 Location permissions and the `sms` and `tel` intent queries are declared. Do not remove them.
 
+## Visual style
+Clean, modern safety app. White rounded cards on the warm off-white background, soft shadow (elevation-1), bold section headers, icons inside small tinted rounded squares, and list rows with a round action button on the right. Use ONLY the existing design tokens (teal primary, red only for SOS). Do not use images or new packages.
+
+**Reusable widgets (use these instead of creating new one-off styles):**
+- `IconTile(icon, {color, background})` - 40x40 rounded square (radius 12) with centered 24px icon. Defaults: background `primary-tint`, icon `primary`.
+- `SectionHeader(title, {trailing})` - Heading text style with 24 top spacing and 8 bottom spacing.
+- `ActionListTile(leading, title, subtitle, onAction, actionIcon, actionLabel)` - Card row with leading, Body-Strong title, Caption subtitle (text-secondary), and round 48x48 icon button on the right. Action button must have a Semantics label from `actionLabel`.
+- `StatCard(icon, label, value)` - Card with IconTile, Caption label, and Heading value.
+
+**Rule:** Reuse these widgets instead of creating new one-off styles.
+
 ## How we work
 - Build one screen or feature at a time, in this order: theme and navigation, Contacts, Home with SOS, SOS flow, Rides, Safe Places and Tips, optional extras.
 - After each task: run `flutter analyze`, test on the phone, and make a small Git commit.
