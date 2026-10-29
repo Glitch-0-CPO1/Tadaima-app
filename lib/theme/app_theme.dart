@@ -65,9 +65,16 @@ class AppTheme {
       appBarTheme: const AppBarTheme(
         backgroundColor: AppColors.primary,
         foregroundColor: AppColors.onPrimary,
+        iconTheme: IconThemeData(color: AppColors.onPrimary),
+        actionsIconTheme: IconThemeData(color: AppColors.onPrimary),
         elevation: 0,
         centerTitle: false,
-        titleTextStyle: AppTextStyles.heading,
+        titleTextStyle: TextStyle(
+          fontSize: 20,
+          height: 28 / 20,
+          fontWeight: FontWeight.w600,
+          color: AppColors.onPrimary,
+        ),
       ),
 
       cardTheme: CardThemeData(

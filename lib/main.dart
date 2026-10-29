@@ -88,6 +88,7 @@ class _AppShellState extends State<AppShell> {
 
   /// Index of the Contacts tab in the bottom navigation.
   static const int _contactsTabIndex = 2;
+  static const int _ridesTabIndex = 1;
 
   static const List<NavigationDestination> _destinations =
       <NavigationDestination>[
@@ -123,27 +124,35 @@ class _AppShellState extends State<AppShell> {
 
   @override
   Widget build(BuildContext context) {
-    // Home needs a way to jump to the Contacts tab (from its warning banner),
-    // so the tabs are built here where we can pass that callback in.
+    // Home needs a way to jump to the Contacts/Rides tabs.
     final tabs = <Widget>[
       HomeScreen(
         onOpenContacts: () => _onDestinationSelected(_contactsTabIndex),
+        onOpenRides: () => _onDestinationSelected(_ridesTabIndex),
       ),
       const RidesScreen(),
       const ContactsScreen(),
       const MoreScreen(),
     ];
 
+    final isHome = _selectedIndex == 0;
     return Scaffold(
-      appBar: AppBar(
-        title: Text(_destinations[_selectedIndex].label),
-      ),
-      body: SafeArea(
-        child: IndexedStack(
-          index: _selectedIndex,
-          children: tabs,
-        ),
-      ),
+      appBar: isHome
+          ? null
+          : AppBar(
+              title: Text(_destinations[_selectedIndex].label),
+            ),
+      body: isHome
+          ? IndexedStack(
+              index: _selectedIndex,
+              children: tabs,
+            )
+          : SafeArea(
+              child: IndexedStack(
+                index: _selectedIndex,
+                children: tabs,
+              ),
+            ),
       bottomNavigationBar: NavigationBar(
         selectedIndex: _selectedIndex,
         onDestinationSelected: _onDestinationSelected,
