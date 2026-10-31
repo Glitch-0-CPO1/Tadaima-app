@@ -36,13 +36,21 @@ class RecipientSendList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Show the primary contact first and highlight it.
+    final sortedContacts = List<Contact>.from(contacts);
+    sortedContacts.sort((a, b) {
+      if (a.isPrimary && !b.isPrimary) return -1;
+      if (!a.isPrimary && b.isPrimary) return 1;
+      return 0;
+    });
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        for (var i = 0; i < contacts.length; i++) ...[
+        for (var i = 0; i < sortedContacts.length; i++) ...[
           if (i > 0) const SizedBox(height: AppTheme.spaceSm),
           _RecipientRow(
-            contact: contacts[i],
+            contact: sortedContacts[i],
             buildMessage: buildMessage,
             actionStyle: actionStyle,
           ),
@@ -96,18 +104,51 @@ class _RecipientRowState extends State<_RecipientRow> {
   @override
   Widget build(BuildContext context) {
     final hasRelationship = widget.contact.relationship.trim().isNotEmpty;
+    final isPrimary = widget.contact.isPrimary;
 
     return Card(
+      color: isPrimary ? AppColors.primaryTint : null,
       child: Padding(
         padding: const EdgeInsets.all(AppTheme.spaceMd),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text(
-              widget.contact.name,
-              style: AppTextStyles.bodyStrong,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
+            Row(
+              children: [
+                Flexible(
+                  child: Text(
+                    widget.contact.name,
+                    style: AppTextStyles.bodyStrong,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                if (isPrimary) ...[
+                  const SizedBox(width: AppTheme.spaceSm),
+                  Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                    decoration: BoxDecoration(
+                      color: AppColors.surface,
+                      borderRadius: BorderRadius.circular(AppTheme.radiusChip),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(Icons.star, size: 16, color: AppColors.primary),
+                        const SizedBox(width: 4),
+                        Text(
+                          'Primary',
+                          style: AppTextStyles.caption.copyWith(
+                            color: AppColors.primary,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ],
             ),
             if (hasRelationship) ...[
               const SizedBox(height: AppTheme.spaceXs),

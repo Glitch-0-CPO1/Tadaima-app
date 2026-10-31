@@ -18,8 +18,16 @@ class ContactsProvider extends ChangeNotifier {
   final List<Contact> _contacts = <Contact>[];
   bool _isLoaded = false;
 
-  /// A read-only view of the contacts. Screens should not mutate this list.
-  List<Contact> get contacts => List<Contact>.unmodifiable(_contacts);
+  /// A read-only view of the contacts. Sorted so the primary contact is first.
+  List<Contact> get contacts {
+    final list = List<Contact>.from(_contacts);
+    list.sort((a, b) {
+      if (a.isPrimary && !b.isPrimary) return -1;
+      if (!a.isPrimary && b.isPrimary) return 1;
+      return 0;
+    });
+    return List<Contact>.unmodifiable(list);
+  }
 
   /// True once [load] has finished at least once.
   bool get isLoaded => _isLoaded;
@@ -84,6 +92,37 @@ class ContactsProvider extends ChangeNotifier {
     if (_contacts.length == lengthBefore) {
       return;
     }
+    notifyListeners();
+    await _save();
+  }
+
+  /// Sets the contact with [id] as the primary contact.
+  ///
+  /// At most one contact can be primary. Tapping the current primary again
+  /// clears it (sets no primary contact).
+  Future<void> setPrimary(String id) async {
+    final index = _contacts.indexWhere((c) => c.id == id);
+    if (index == -1) {
+      return;
+    }
+
+    final current = _contacts[index];
+    if (current.isPrimary) {
+      // Tapping the current primary again clears it.
+      _contacts[index] = current.copyWith(isPrimary: false);
+      notifyListeners();
+      await _save();
+      return;
+    }
+
+    // Ensure at most one primary: clear any existing primary.
+    for (var i = 0; i < _contacts.length; i++) {
+      if (_contacts[i].isPrimary) {
+        _contacts[i] = _contacts[i].copyWith(isPrimary: false);
+      }
+    }
+    _contacts[index] = current.copyWith(isPrimary: true);
+
     notifyListeners();
     await _save();
   }

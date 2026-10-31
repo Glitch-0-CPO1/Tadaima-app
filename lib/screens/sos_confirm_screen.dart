@@ -11,6 +11,7 @@ import '../theme/app_colors.dart';
 import '../theme/app_text_styles.dart';
 import '../theme/app_theme.dart';
 import '../widgets/recipient_send_list.dart';
+import '../widgets/share_via_apps_button.dart';
 
 /// The "Send SOS" screen.
 ///
@@ -173,6 +174,10 @@ class _SosConfirmScreenState extends State<SosConfirmScreen> {
                       contacts: contacts,
                       buildMessage: () => _messageForSend(name, recentRide),
                     ),
+                  const SizedBox(height: AppTheme.spaceMd),
+                  ShareViaAppsButton(
+                    messageBuilder: () => _messageForSend(name, recentRide),
+                  ),
                   const SizedBox(height: AppTheme.spaceXl),
                   FilledButton.icon(
                     onPressed: _call911,

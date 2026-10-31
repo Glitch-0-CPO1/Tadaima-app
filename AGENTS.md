@@ -13,7 +13,7 @@ Judges grade design, stable code, and AI transparency. A small app that works an
 - **Android only.** Target a real device (Infinix, Android 15). Test with `flutter run -d <device-id>`.
 - **Keep it simple.** Build only what is asked. No extra features, no extra packages without asking.
 - **Never crash.** Handle denied permissions, missing GPS, empty lists, and bad input with a friendly message.
-- **Use only these packages:** `provider`, `shared_preferences`, `geolocator`, `url_launcher`. Ask before adding any other.
+- **Use only these packages:** `provider`, `shared_preferences`, `geolocator`, `url_launcher`, `share_plus`. Ask before adding any other.
 - **Null safety, `flutter analyze` must pass with no errors** before you finish a task.
 - **Explain your work in plain language** after each task: what files changed and why, so a student can defend it in a viva. Add short comments to non-obvious code.
 - Follow the design tokens below exactly. Do not invent colors, fonts, or spacing.

@@ -46,6 +46,8 @@ class ContactsScreen extends StatelessWidget {
                     child: _ContactCard(
                       contact: contact,
                       onDelete: () => _confirmDelete(context, contact),
+                      onTogglePrimary: () =>
+                          context.read<ContactsProvider>().setPrimary(contact.id),
                     ),
                   ),
                 ),
@@ -105,16 +107,24 @@ class ContactsScreen extends StatelessWidget {
   }
 }
 
-/// A single trusted contact, shown as a card with a delete button.
+/// A single trusted contact, shown as a card with primary toggle and delete.
 class _ContactCard extends StatelessWidget {
-  const _ContactCard({required this.contact, required this.onDelete});
+  const _ContactCard({
+    required this.contact,
+    required this.onDelete,
+    required this.onTogglePrimary,
+  });
 
   final Contact contact;
   final VoidCallback onDelete;
+  final VoidCallback onTogglePrimary;
 
   @override
   Widget build(BuildContext context) {
     final hasRelationship = contact.relationship.isNotEmpty;
+    final primaryLabel = contact.isPrimary
+        ? 'Remove primary contact from ${contact.name}'
+        : 'Make ${contact.name} the primary contact';
 
     return Card(
       child: Padding(
@@ -132,11 +142,21 @@ class _ContactCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    contact.name,
-                    style: AppTextStyles.bodyStrong,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
+                  Row(
+                    children: [
+                      Flexible(
+                        child: Text(
+                          contact.name,
+                          style: AppTextStyles.bodyStrong,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      if (contact.isPrimary) ...[
+                        const SizedBox(width: AppTheme.spaceSm),
+                        const _PrimaryChip(),
+                      ],
+                    ],
                   ),
                   if (hasRelationship) ...[
                     const SizedBox(height: AppTheme.spaceXs),
@@ -148,14 +168,60 @@ class _ContactCard extends StatelessWidget {
               ),
             ),
             // IconButton already gives a 48x48 tap target.
-            IconButton(
-              onPressed: onDelete,
-              tooltip: 'Delete ${contact.name}',
-              icon: const Icon(Icons.delete_outline),
-              color: AppColors.danger,
+            Semantics(
+              label: primaryLabel,
+              button: true,
+              child: IconButton(
+                onPressed: onTogglePrimary,
+                tooltip: contact.isPrimary ? 'Remove primary' : 'Make primary',
+                icon: Icon(
+                  contact.isPrimary ? Icons.star : Icons.star_border,
+                  color: AppColors.primary,
+                ),
+              ),
+            ),
+            Semantics(
+              label: 'Delete ${contact.name}',
+              button: true,
+              child: IconButton(
+                onPressed: onDelete,
+                tooltip: 'Delete ${contact.name}',
+                icon: const Icon(Icons.delete_outline),
+                color: AppColors.danger,
+              ),
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+/// A small "Primary" chip shown on the primary contact card.
+class _PrimaryChip extends StatelessWidget {
+  const _PrimaryChip();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+      decoration: BoxDecoration(
+        color: AppColors.primaryTint,
+        borderRadius: BorderRadius.circular(AppTheme.radiusChip),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Icon(Icons.star, size: 16, color: AppColors.primary),
+          const SizedBox(width: 4),
+          Text(
+            'Primary',
+            style: AppTextStyles.caption.copyWith(
+              color: AppColors.primary,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -8,6 +8,7 @@ import '../theme/app_colors.dart';
 import '../theme/app_text_styles.dart';
 import '../theme/app_theme.dart';
 import '../widgets/recipient_send_list.dart';
+import '../widgets/share_via_apps_button.dart';
 
 /// The "I'm home safe" screen opened from the Home tab.
 ///
@@ -72,6 +73,8 @@ class TadaimaScreen extends StatelessWidget {
                 // Tadaima safe-arrival actions use the orange accent.
                 actionStyle: AppTheme.accentButtonStyle,
               ),
+            const SizedBox(height: AppTheme.spaceMd),
+            ShareViaAppsButton(message: message),
             const SizedBox(height: AppTheme.spaceXl),
             OutlinedButton(
               onPressed: () => Navigator.of(context).pop(),
