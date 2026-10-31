@@ -90,11 +90,18 @@ class _SosButtonState extends State<SosButton>
           child: Stack(
             alignment: Alignment.center,
             children: [
-              // The solid red circle.
+              // The red gradient circle (gradient is unique to SOS).
               Container(
                 decoration: const BoxDecoration(
                   shape: BoxShape.circle,
-                  color: AppColors.sosRed,
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      AppColors.sosGradientStart,
+                      AppColors.sosGradientEnd,
+                    ],
+                  ),
                 ),
               ),
               // The white progress ring drawn on top of the circle.
@@ -148,7 +155,8 @@ class _ProgressRingPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    const double stroke = 8;
+    // 6px white ring, reserved for the SOS button only.
+    const double stroke = 6;
     final center = size.center(Offset.zero);
     final radius = (size.shortestSide - stroke) / 2;
 

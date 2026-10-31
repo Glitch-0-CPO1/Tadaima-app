@@ -69,6 +69,8 @@ class TadaimaScreen extends StatelessWidget {
                 // The message is fixed and needs no GPS, but the widget asks
                 // for a Future, so we wrap it in an async function.
                 buildMessage: () async => message,
+                // Tadaima safe-arrival actions use the orange accent.
+                actionStyle: AppTheme.accentButtonStyle,
               ),
             const SizedBox(height: AppTheme.spaceXl),
             OutlinedButton(

@@ -20,6 +20,7 @@ class RecipientSendList extends StatelessWidget {
     super.key,
     required this.contacts,
     required this.buildMessage,
+    this.actionStyle,
   });
 
   /// The people who should receive the message.
@@ -29,6 +30,10 @@ class RecipientSendList extends StatelessWidget {
   /// can wait for the best location data before building the text.
   final Future<String> Function() buildMessage;
 
+  /// Optional style for the send buttons. Used to make the Tadaima safe-arrival
+  /// buttons orange without changing the SOS buttons.
+  final ButtonStyle? actionStyle;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -36,7 +41,11 @@ class RecipientSendList extends StatelessWidget {
       children: [
         for (var i = 0; i < contacts.length; i++) ...[
           if (i > 0) const SizedBox(height: AppTheme.spaceSm),
-          _RecipientRow(contact: contacts[i], buildMessage: buildMessage),
+          _RecipientRow(
+            contact: contacts[i],
+            buildMessage: buildMessage,
+            actionStyle: actionStyle,
+          ),
         ],
       ],
     );
@@ -48,10 +57,15 @@ enum _SendStatus { idle, sending, opened, failed }
 
 /// A single contact with its own send button and result state.
 class _RecipientRow extends StatefulWidget {
-  const _RecipientRow({required this.contact, required this.buildMessage});
+  const _RecipientRow({
+    required this.contact,
+    required this.buildMessage,
+    this.actionStyle,
+  });
 
   final Contact contact;
   final Future<String> Function() buildMessage;
+  final ButtonStyle? actionStyle;
 
   @override
   State<_RecipientRow> createState() => _RecipientRowState();
@@ -115,6 +129,7 @@ class _RecipientRowState extends State<_RecipientRow> {
       case _SendStatus.idle:
         return FilledButton.icon(
           onPressed: _send,
+          style: widget.actionStyle,
           icon: const Icon(Icons.send),
           label: Text('Send to ${widget.contact.name}'),
         );

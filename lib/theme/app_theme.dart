@@ -35,6 +35,31 @@ class AppTheme {
   /// Fixed height for filled/outlined buttons.
   static const double buttonHeight = 48;
 
+  /// Accent (orange) button. Used only for the "Tadaima - I'm home safe"
+  /// action so it stands apart from the red main actions.
+  static final ButtonStyle accentButtonStyle = FilledButton.styleFrom(
+    backgroundColor: AppColors.accent,
+    foregroundColor: AppColors.onAccent,
+    disabledBackgroundColor: AppColors.disabledBg,
+    disabledForegroundColor: AppColors.disabledText,
+    minimumSize: const Size(48, buttonHeight),
+    textStyle: AppTextStyles.button,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(radiusButton),
+    ),
+  );
+
+  /// Call 911 button: primary-dark fill with white text.
+  static final ButtonStyle call911ButtonStyle = FilledButton.styleFrom(
+    backgroundColor: AppColors.primaryDark,
+    foregroundColor: AppColors.onPrimary,
+    minimumSize: const Size(48, buttonHeight),
+    textStyle: AppTextStyles.button,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(radiusButton),
+    ),
+  );
+
   static ThemeData get light {
     final colorScheme = ColorScheme.fromSeed(
       seedColor: AppColors.primary,
@@ -44,7 +69,10 @@ class AppTheme {
       onPrimary: AppColors.onPrimary,
       primaryContainer: AppColors.primaryTint,
       onPrimaryContainer: AppColors.primaryDark,
-      secondary: AppColors.primaryDark,
+      secondary: AppColors.accent,
+      onSecondary: AppColors.onAccent,
+      secondaryContainer: AppColors.accentTint,
+      onSecondaryContainer: AppColors.accent,
       surface: AppColors.surface,
       onSurface: AppColors.textPrimary,
       onSurfaceVariant: AppColors.textSecondary,
@@ -116,7 +144,7 @@ class AppTheme {
 
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
-          foregroundColor: AppColors.primary,
+          foregroundColor: AppColors.primaryDark,
           disabledForegroundColor: AppColors.disabledText,
           minimumSize: const Size(48, 48),
           textStyle: AppTextStyles.button,
@@ -153,11 +181,24 @@ class AppTheme {
 
       chipTheme: ChipThemeData(
         backgroundColor: AppColors.primaryTint,
+        selectedColor: AppColors.primary,
+        secondarySelectedColor: AppColors.primary,
+        checkmarkColor: AppColors.onPrimary,
         labelStyle: AppTextStyles.caption,
+        secondaryLabelStyle: AppTextStyles.caption.copyWith(
+          color: AppColors.onPrimary,
+          fontWeight: FontWeight.w600,
+        ),
         side: BorderSide.none,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(radiusChip),
         ),
+      ),
+
+      progressIndicatorTheme: const ProgressIndicatorThemeData(
+        color: AppColors.primary,
+        linearTrackColor: AppColors.divider,
+        circularTrackColor: AppColors.divider,
       ),
 
       bottomSheetTheme: const BottomSheetThemeData(

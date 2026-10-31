@@ -36,15 +36,16 @@ Keep business logic in providers and services, not inside widgets.
 
 ## Design tokens (from our Figma design system)
 Colors:
-- primary `#0B6E6E`, primary-dark `#084F4F`, primary-tint `#E1F1F1`
-- sos-red `#C62828` (ONLY for SOS-related elements), danger `#B3261E`, danger-bg `#FDE8E6`
+- primary `#D32F2F`, primary-dark `#B71C1C`, primary-tint `#FDECEC`
+- accent `#C2410C`, accent-tint `#FFEDE0`
+- sos `#B71C1C` (the SOS button fill is a gradient `#D32F2F` to `#9F1D26` with a white 6px ring), danger `#B71C1C`, danger-bg `#FDECEC`
 - success `#1B6E2F`, success-bg `#E3F3E6`
-- warning `#8A5300`, warning-bg `#FFF1D6`
-- bg `#FAF7F2`, surface `#FFFFFF`
-- text-primary `#1B2A2F`, text-secondary `#4A5A5F`
-- border-input `#78888C`, divider `#D6DCDD`
-- disabled-bg `#E9EDEE`, disabled-text `#6B7B80`
-- on-primary `#FFFFFF`, on-sos `#FFFFFF`
+- warning `#7A4A00`, warning-bg `#FFF1D6`
+- bg `#FFF9F7`, surface `#FFFFFF`
+- text-primary `#1F1A1A`, text-secondary `#5C4F4F`
+- border-input `#857474`, divider `#EADDDA`
+- disabled-bg `#EFE7E5`, disabled-text `#7A6B6B`
+- on-primary `#FFFFFF`, on-accent `#FFFFFF`, on-sos `#FFFFFF`
 
 Text styles (font: Inter, or the default font if Inter is not bundled):
 Display 32/40 Bold, Title 24/32 Semibold, Heading 20/28 Semibold, Body 16/24 Regular, Body-Strong 16/24 Semibold, Button 16/24 Semibold, Caption 14/20 Regular. Never use text smaller than 14.
@@ -96,7 +97,9 @@ Use `Uri.encodeComponent` for the body. Send to all trusted contacts the app has
 Location permissions and the `sms` and `tel` intent queries are declared. Do not remove them.
 
 ## Visual style
-Clean, modern safety app. White rounded cards on the warm off-white background, soft shadow (elevation-1), bold section headers, icons inside small tinted rounded squares, and list rows with a round action button on the right. Use ONLY the existing design tokens (teal primary, red only for SOS). Do not use images or new packages.
+Clean, modern safety app. White rounded cards on the warm off-white background, soft shadow (elevation-1), bold section headers, icons inside small tinted rounded squares, and list rows with a round action button on the right. Use ONLY the existing design tokens (red primary, orange accent only for the Tadaima action). Do not use images or new packages.
+
+**Color rules:** SOS is the only element with a white ring, pulse and gradient. Red means main action. Errors always use an icon and text, never color alone. Done states are green, not red. Warnings are amber, not orange.
 
 **Reusable widgets (use these instead of creating new one-off styles):**
 - `IconTile(icon, {color, background})` - 40x40 rounded square (radius 12) with centered 24px icon. Defaults: background `primary-tint`, icon `primary`.

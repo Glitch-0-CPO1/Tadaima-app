@@ -283,10 +283,7 @@ class _MoreScreenState extends State<MoreScreen> {
           children: [
             FilledButton.icon(
               onPressed: _call911,
-              style: FilledButton.styleFrom(
-                backgroundColor: AppColors.danger,
-                foregroundColor: AppColors.onPrimary,
-              ),
+              style: AppTheme.call911ButtonStyle,
               icon: const Icon(Icons.phone),
               label: const Text('Call 911 (opens dialer)'),
             ),

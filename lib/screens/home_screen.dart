@@ -368,8 +368,11 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                 onPressed: () => _openTadaima(context),
                 icon: const Icon(Icons.home),
                 label: const Text("Tadaima - I'm home safe"),
-                style: FilledButton.styleFrom(
-                  minimumSize: const Size(double.infinity, AppTheme.buttonHeight),
+                style: AppTheme.accentButtonStyle.merge(
+                  FilledButton.styleFrom(
+                    minimumSize:
+                        const Size(double.infinity, AppTheme.buttonHeight),
+                  ),
                 ),
               ),
             ),
@@ -704,13 +707,18 @@ class _QuickActionTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final tileColor = isDanger ? AppColors.dangerBg : AppColors.primaryTint;
-    final iconColor = isDanger ? AppColors.danger : AppColors.primary;
-    final textColor = isDanger ? AppColors.danger : AppColors.textPrimary;
+    // Call 911 is a primary-dark filled action; the other tiles stay light.
+    final cardColor = isDanger ? AppColors.primaryDark : AppColors.surface;
+    final tileColor = isDanger
+        ? AppColors.onPrimary.withValues(alpha: 0.16)
+        : AppColors.primaryTint;
+    final iconColor = isDanger ? AppColors.onPrimary : AppColors.primary;
+    final textColor = isDanger ? AppColors.onPrimary : AppColors.textPrimary;
     return Semantics(
       label: label,
       button: true,
       child: Card(
+        color: cardColor,
         child: InkWell(
           onTap: onTap,
           borderRadius: BorderRadius.circular(AppTheme.radiusCard),

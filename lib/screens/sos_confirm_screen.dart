@@ -176,10 +176,7 @@ class _SosConfirmScreenState extends State<SosConfirmScreen> {
                   const SizedBox(height: AppTheme.spaceXl),
                   FilledButton.icon(
                     onPressed: _call911,
-                    style: FilledButton.styleFrom(
-                      backgroundColor: AppColors.danger,
-                      foregroundColor: AppColors.onPrimary,
-                    ),
+                    style: AppTheme.call911ButtonStyle,
                     icon: const Icon(Icons.phone),
                     label: const Text('Call 911'),
                   ),
@@ -245,7 +242,7 @@ class _SosConfirmScreenState extends State<SosConfirmScreen> {
     } else if (_fix == null) {
       children.add(
         _Banner(
-          icon: Icons.location_off,
+          icon: Icons.error_outline,
           background: AppColors.dangerBg,
           foreground: AppColors.danger,
           text: _permissionDeniedForever
